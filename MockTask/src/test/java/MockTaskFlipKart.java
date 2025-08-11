@@ -1,9 +1,16 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,41 +47,34 @@ public class MockTaskFlipKart {
 		List<WebElement> prices = driver.findElements(By.xpath(
 				"//div[@class='eivht0']/descendant::div[@class='O+irE2']"));
 		int rowcoutn = 1;
-		for (WebElement name : names) {
-			String fname = name.getText();
-
-		}
-
-		for (WebElement price : prices) {
-			System.out.println(price.getText());
-		}
-
-		// FileInputStream fis= new
-		// FileInputStream("./src/test/resources/flights.xlsx");
-		// wb = WorkbookFactory.create(fis);
-		// FileOutputStream fos= new
-		// FileOutputStream("./src/test/resources/flights.xlsx");
-		// Sheet sheet = wb.getSheet("Sheet1");
-		// int rowcount=1;
-		// for(WebElement name:names)
-		// {
-		//
-		// Row row = sheet.getRow(rowcount);
-		// Cell cell = row.createCell(0);
-		// cell.setCellType(CellType.STRING);
-		// cell.setCellValue(name.getText());
-		// wb.write(fos);
-		// wb.close();
-		// rowcount++;
-		//
+		// for (WebElement name : names) {
+		// String fname = name.getText();
 		//
 		// }
 		//
-		// for(WebElement price:prices) {
+		// for (WebElement price : prices) {
 		// System.out.println(price.getText());
-		//
 		// }
 
+		FileInputStream fis = new FileInputStream(
+				"./src/test/resources/flights.xlsx");
+		wb = WorkbookFactory.create(fis);
+		Sheet sheet = wb.getSheet("Sheet1");
+		
+		for (WebElement name : names) {
+
+			Row row = sheet.getRow(rowcoutn);
+			Cell cell = row.createCell(0);
+			cell.setCellType(CellType.STRING);
+			cell.setCellValue(name.getText());
+			rowcoutn++;
+
+		}
+
+		FileOutputStream fos = new FileOutputStream(
+				"./src/test/resources/flights.xlsx");
+		wb.write(fos);
+		wb.close();
 	}
 
 }
